@@ -1,0 +1,7 @@
+sudo add-apt-repository ppa:ansible/ansible
+sudo apt update
+
+sudo apt install ansible
+ansible --version 
+
+From ansible-controller copy the content from id_rsa.pub file and paste it to slave ./ssh/authorized_keys.

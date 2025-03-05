@@ -1,0 +1,36 @@
+trivy image nginx:1.23.2-perl
+
+The scan will begin by updating the vulnerability database, which takes around one minute. 
+Shortly after, a flood of scan results is displayed.
+
+Each result includes the following columns from left to right:
+
+    Library: The name of the library or package that contains the vulnerability
+    Vulnerability: The identifier of the vulnerability in the CVE (Common Vulnerabilities and Exposures) database
+    Severity: The severity of the vulnerability as determined by the CVSS (Common Vulnerability Scoring System) score and categorized into UNKNOWN, LOW, MEDIUM, HIGH, and CRITICAL
+    Installed Version: The version of the library or package that is installed in the image
+    Fixed Version: The version of the library or package that fixes the vulnerability
+    Title: The title of the vulnerability and a link to more details
+
+Reissuing the same command: 
+trivy image nginx:1.23.2-perl 
+
+  The vulnerability database is cached and the command completes much faster the second time.
+
+You will have to determine what level of severity is acceptable for your organization. 
+You can filter the vulnerabilites by severity using the --severity option.
+
+  trivy image --severity HIGH,CRITICAL nginx:1.23.2-perl
+
+  The list of vulnerabilities is much shorter and only includes the vulnerabilities that are of high or critical severity. 
+  As time goes on, new vulnerabilities are discovered and the list may grow. 
+  That is why it is important to keep periodically scan your images to have a current understanding of risk.
+
+trivy image nginx:1.23.2-alpine
+ 	
+ 	The scan results are much shorter because the alpine image is based on a much smaller base image containing fewer libraries and packages. 
+  The alpine image is said to have a smaller attack surface than the perl image.
+
+trivy image --format json --output /home/ubuntu/nginx.json nginx:1.23.2-alpine
+
+  Save the scan results to a JSON file for future analysis.

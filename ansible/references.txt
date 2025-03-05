@@ -1,0 +1,30 @@
+https://docs.ansible.com/ansible/latest/collections/ansible/builtin/yum_module.html
+
+present and installed will simply ensure that a desired package is installed.
+latest will update the specified package if it’s not of the latest available version.
+absent and removed will remove the specified package.
+
+---
+- name: Checking whether java is installed
+  hosts: web
+  tasks:
+    - name: check if package is installed
+      package:
+        name: java
+        state: present
+      check_mode: true
+      register: java_check
+      
+      https://linuxize.com/post/how-to-install-mongodb-on-centos-7/
+      https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-red-hat/
+      https://www.edureka.co/community/85326/how-to-install-mongodb-on-centos-7-using-ansible 
+
+- name: Install mongodb-org package
+    yum:
+     name: mongodb-org
+     state: present
+
+  - name: Start the service
+    service:
+      name: mongod
+      state: started

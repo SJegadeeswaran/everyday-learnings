@@ -1,0 +1,89 @@
+To deploy activemq using public IP address - Ingress:
+
+Create an AKS cluster;
+
+Create a Public IP address (IPV4); to be created under AKS based resource group;
+Associate this public ip address to kubernetes load balancer;
+
+Then run the following helm command with the public ip address from the earlier command:
+
+helm upgrade --install ingress-nginx ingress-nginx  --repo https://kubernetes.github.io/ingress-nginx  --namespace ingress-nginx
+  --create-namespace  --set rbac.create=true  --set controller.stats.enabled=true  --set controller.metrics.enabled=true  --set controller.service.ex
+ternalTrafficPolicy="Local"  --set controller.service.loadBalancerIP="public-ip"
+
+kubectl get svc -A - This will show ingress with the created public IP address;
+This is created on the ingress-nginx namespace;
+
+Then the activemq pod can be deployed on the default namespace pointing to the public loadbalancer IP.
+-----------------------------------------------------------------------------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: activemq
+  labels:
+    app: activemq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: activemq
+  template:
+    metadata:
+      labels:
+        app: activemq
+    spec:
+      containers:
+        - name: activemq
+          image: rmohr/activemq:5.15.9-alpine
+          ports:
+            - containerPort: 61616
+            - containerPort: 8161
+          resources:
+            limits:
+              memory: "1.5Gi"
+              cpu: "900m"
+            requests:
+              memory: "1Gi"
+              cpu: "450m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: activemq
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 4.157.250.28
+  ports:
+    - name: mqtcp
+      port: 61616
+      targetPort: 61616
+    - name: activemqui
+      port: 8161
+      targetPort: 8161
+  selector:
+    app: activemq 
+--------------------------
+
+Other Helm commands:
+
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+--version 4.7.1 \
+--namespace ingress-nginx \
+--create-namespace \
+--set controller.replicaCount=2 \
+--set controller.nodeSelector."kubernetes\.io/os"=linux \
+--set controller.image.digest="" \
+--set controller.admissionWebhooks.patch.nodeSelector."kubernetes\.io/os"=linux \
+--set controller.service.loadBalancerIP=10.50.X.XXX \
+--set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-internal"=true \
+--set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz \
+--set controller.admissionWebhooks.patch.image.digest="" \
+--set defaultBackend.nodeSelector."kubernetes\.io/os"=linux \
+--set defaultBackend.image.digest=""
+
+https://akiyamasho.medium.com/azure-kubernetes-service-aks-nginx-ingress-with-static-ip-7bafb6acda8f
+
+To uninstall helm: helm uninstall ingress-nginx -n <namespace-name>..
+Delete the public static IP once completed.
+
+Dissociate to be tried or without associate to be tried.
