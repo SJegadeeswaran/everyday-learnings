@@ -1,0 +1,6 @@
+NIC:
+
+NIC is like IP address. We cannot have single NIC to all 5 VM's.
+This would bring problem while loadbalancing and turning on all the VM's at the same time.
+
+Applying the rule (NSG) will also bring some problme to it if 1 NIC is attached to all 5 VM's.
