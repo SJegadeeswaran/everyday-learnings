@@ -1,0 +1,44 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <localRepository>/usr/share/.m2/repository</localRepository>
+  <servers>
+    <server>
+             <id>azureartifact</id>
+      	     <username>YYY</username>
+            <password>xxxx</password>
+        </server>
+  </servers>
+  <mirrors>
+    <mirror>
+  <!--This sends everything else to /public -->
+  <id>azureartifact</id>
+  <mirrorOf>central</mirrorOf>
+  <url>https://pkgs.dev.azure.com/xxx/xxx/_packaging/azureartifact/maven/v1</url>
+  </mirror>
+</mirrors>
+ <profiles>
+    <profile>
+<id>azureartifact</id>
+<!--Enable snapshots for the built in central repo to direct -->
+  <!--all requests to azureartifact via the mirror -->
+<repositories>
+      <repository>
+      <id>azureartifact</id>
+      <url>https://pkgs.dev.azure.com/xxx/xxx/_packaging/azureartifact/maven/v1</url>
+      </repository>
+  </repositories>
+<pluginRepositories>
+      <pluginRepository>
+      <id>azureartifact</id>
+      <url>https://pkgs.dev.azure.com/xxx/xxx/_packaging/azureartifact/maven/v1</url>
+      </pluginRepository>
+  </pluginRepositories>
+    </profile>
+  </profiles>
+ <activeProfiles>
+  <!--make the profile active all the time -->
+  <activeProfile>azureartifact</activeProfile>
+</activeProfiles>
+</settings>

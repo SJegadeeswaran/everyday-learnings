@@ -1,0 +1,21 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: sampleproject 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sampleproject
+  template:
+    metadata:
+      labels:
+        app: sampleproject 
+    spec:
+      containers:
+      - name: sampleproject 
+        image: jegregistry.azurecr.io/helloworld:v1
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: secret
