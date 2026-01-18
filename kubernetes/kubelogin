@@ -1,0 +1,12 @@
+To connect from kubelogin:
+
+Install kubectl;
+Install kubelogin from:
+
+curl -fsSLO https://github.com/Azure/kubelogin/releases/download/v0.0.28/kubelogin-linux-amd64.zip
+    unzip -ojd /usr/local/bin kubelogin-linux-amd64.zip bin/linux_amd64/kubelogin
+    rm -f kubelogin-linux-amd64.zip
+
+az login with service principal values;
+
+kubelogin convert-kubeconfig -l azurecli --kubeconfig /.kube/config

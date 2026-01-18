@@ -1,0 +1,103 @@
+MySQL installation:
+
+sudo wget https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm
+sudo md5sum mysql80-community-release-el7-3.noarch.rpm
+
+To add to yum.repos.d as mysql.community.repo
+sudo rpm -Uvh https://repo.mysql.com/mysql80-community-release-el7-3.noarch.rpm 
+
+sudo service mysqld start
+
+mysql --version
+mysql -u root -p 
+
+CREATE DATABASE IF NOT EXISTS databasename;
+use databasename;
+
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';  
+GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
+FLUSH PRIVILEGES;
+drop user xxx@localhost;
+
+CREATE USER 'newuser'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'%';
+FLUSH PRIVILEGES;
+drop user xxx@'%' - if not needed or to be deleted.
+
+% - to access from other machines()
+If the below error, use % while creating user:
+null, message from server: "Host 'XX.X.X.XXX' is not allowed to connect to this MySQL server"
+
+Error:
+
+Access denied for user root@localhost (Using password NO)
+Access denied for user root@localhost (Using password YES)
+
+Fix:
+
+Edit the /etc/my.cnf file
+Under [mysqld] add skip-grant-tables
+Restart your MySQL server
+You should be able to login to mysql now using the below command mysql -u root -p
+Run flush privileges; inside the MySQL shell
+Set new password with ALTER USER ‘root’@’localhost’ IDENTIFIED BY ‘your_new_password’;
+Edit /etc/my.cnf and remove the skip-grant-tables line
+Restart MySQL again
+Now you can login with your new MySQL password using mysql -u root -p
+
+To remove mysql from Centos:
+
+yum remove mysql mysql-server;
+http://yular.github.io/2016/07/02/Remove-MySQL-from-CentOS-Guide/
+
+yum remove mysql-community-client.x86_64 mysql-community-common.x86_64 mysql-community-devel.x86_64 mysql-community-libs.x86_64 mysql-community-libs-compat.x86_64 mysql-community-server.x86_64 mysql57-community-release.noarch
+yum remove mysql mysql-server
+mv /var/lib/mysql /var/lib/mysql_bp
+rm -rf /var/lib/mysql
+rm -rf /etc/my.cnf
+
+yum remove mysql mysql-*
+rpm -qa mysql\*
+rpm -e mysql-community-release
+
+mysql80-community-release-el8.rpm
+
+sudo rm -r /var/cache/yum/*
+sudo yum remove mysql80-community-release-el8-1.noarch
+yum clean all
+
+Source: https://orenjibaka.wordpress.com/2016/02/09/how-to-completely-uninstall-remove-mysql-server-on-centos-linux/
+
+To set lower_case_tables=1 in mysql:
+
+Stop the mysql service using sudo systemctl stop mysqld; 
+Backup mysql folder from /var/lib 
+Delete /var/lib/mysql folder 
+Change lower_case_table_names=1 in /etc/my.cnf 
+Start the mysqld.service again using sudo systemctl start mysqld
+
+If the root password is not working from mysql -u root -p, follow the below steps:
+
+Edit the /etc/my.cnf file 
+Under [mysqld] add skip-grant-tables 
+Restart your MySQL server You should be able to login to mysql now using the below command mysql -u root -p 
+Run flush privileges;
+inside the MySQL shell Set new password with ALTER USER ‘root’@’localhost’ IDENTIFIED BY ‘your_new_password’; 
+Edit /etc/my.cnf and remove the skip-grant-tables line 
+Restart MySQL again 
+Now you can login with your new MySQL password using mysql -u root -p
+
+Steps to install Mysql on Centos 7:
+
+https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-centos-7
+https://dev.mysql.com/downloads/repo/yum/
+wget https://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
+md5sum mysql57-community-release-el7-9.noarch.rpm
+sudo rpm -ivh mysql57-community-release-el7-9.noarch.rpm
+sudo yum install mysql-server
+sudo systemctl start mysqld
+sudo systemctl status mysqld
+sudo grep 'temporary password' /var/log/mysqld.log
+sudo mysql_secure_installation
+mysqladmin -u root -p version
+mysql -u root -p 

@@ -1,0 +1,11 @@
+FROM tomcat:9.0.34-jdk11
+LABEL maintainer="xxx@xxx.com"
+ENV RUNTIME_HOME /usr/local/xxx
+RUN mkdir -p $RUNTIME_HOME
+RUN mkdir -p $CATALINA_HOME/logs
+COPY --chown=root ./filename.jar $RUNTIME_HOME/filename.jar
+COPY --chown=root ./catalina.sh /usr/local/tomcat/bin/catalina.sh
+COPY --chown=root ./conf/. $CATALINA_HOME/conf/
+COPY --chown=root ./lib/. $CATALINA_HOME/lib/
+COPY --from=xxx.azurecr.io/test:latest /path/ofthetest:latestimage/filename*.war /usr/local/tomcat/webapps/
+CMD ["/usr/local/tomcat/bin/catalina.sh","run"]

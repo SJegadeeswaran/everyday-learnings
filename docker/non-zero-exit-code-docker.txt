@@ -1,0 +1,34 @@
+
+
+To run the docker commands in the docker file with non-zero exit codes, which means the docker image will get created even when the the build step is failing.
+
+Steps:
+
+make test 2>&1 > /where/ever/make.log || echo "There were failing tests!"
+
+(or)
+
+RUN make; exit 0
+
+(or)
+
+RUN <first stage> && <job that might fail> || true && <next stage>
+
+(or)
+
+RUN unlink /run/supervisor.sock && etc/init.d/supervisor stop || :
+
+Implementation:
+
+FROM xxx.azurecr.io/xxx:v1.1.1 AS build
+USER root
+ARG buildnumber
+RUN mkdir -p /xxx-yy
+WORKDIR /xxx-yy
+COPY . /xxx-yy/
+RUN apt-get update \
+&& wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+&& apt install ./google-chrome-stable_current_amd64.deb -y \
+&& google-chrome --version \
+&& mvn clean \
+&& mvn package -P Chrome || true
