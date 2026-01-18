@@ -1,0 +1,44 @@
+git config --global http.proxy
+http://proxyUsername:proxyPassword@proxy.server.com:port
+https://itsmycode.com/configure-git-proxy/
+
+git branch --list
+
+To see the history of changes in the main branch, run the command git log -v
+To investigate the actual changes in the commit, you can run the command git log -p
+
+echo "#Git" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git commit --amend -m "commit"
+git restore --staged filename
+
+git remote add upstream <URL>
+git fetch
+git pull upstream <branch-name>
+git push
+
+git config --global http.sslVerify false
+git config --system http.sslVerify false
+
+git config --global user.name "xxx"
+git config --global user.mail "jegadeeswaran.s@xxx.com"
+
+git --help
+git config --list
+
+
+To create a tag name: git tag v1
+To delete a tag name: git tag -d v1
+To list the tags: git tag
+To create annotated tag: git tag -a v1 -m "my version 1.4"
+To create lightweight tag: git tag v1.4-lw
+To see the recent commmit changes from tag name: git show v1
+
+To commit changes to deleted file:
+
+git add -A
+git rm <file name>
+git commit -a
+git add
