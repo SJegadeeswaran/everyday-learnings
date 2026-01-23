@@ -1,6 +1,6 @@
 Task:
 
-Create a Virtual Network (IPv4) in Azure
+Create a Subnet in Azure Virtual Network
 
 The Nautilus DevOps team is strategizing the migration of a portion of their infrastructure to the Azure cloud. Recognizing the scale of this undertaking, they have opted to approach the migration in incremental steps rather than as a single massive transition.
 
