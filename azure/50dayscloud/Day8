@@ -1,0 +1,23 @@
+Task:
+
+Attach Managed Disk to Azure Virtual Machine
+
+The Nautilus devops team is migrating services to Azure. They are breaking down tasks to ensure better control and optimization. You are tasked with attaching an existing data disk to a virtual machine (VM).
+
+An existing VM named devops-vm and a managed disk named devops-disk already exist in the eastus region.
+
+Attach the disk devops-disk to the VM devops-vm as a data disk.
+
+Ensure the disk is attached to the VM devops-vm.
+
+Make sure that the virtual machine initialization has been completed before submitting this task.
+
+Solution:
+
+Go to Home and type disks to see the list of disks available for understanding.
+Select the existing VM.
+On the left side of the panel, choose disks and view disks.
+There would be OS disk and data disk.
+Scroll to the data disk and click add attach existing disks.
+Click the dropdown disk name and choose devops-disk.
+Click apply.
