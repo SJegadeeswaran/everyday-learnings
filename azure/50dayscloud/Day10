@@ -1,0 +1,25 @@
+Task:
+
+Attach Public IP to Azure Virtual Machine
+
+The Nautilus DevOps team has already set up a virtual machine and allocated a public IP address. The final task is to attach this public IP to the VM's network interface card (NIC).
+
+An existing VM named devops-vm-pip and a public IP address named devops-pip already exist.
+
+Attach the public IP devops-pip to the network interface of the VM devops-vm-pip.
+
+Make sure the VM is properly assigned the public IP.
+
+
+Solution:
+
+Search for the existing VM, nic and the public IP addresses and view them.
+Stop the running VM as we are updating the nic.
+Go the the existing VM-->Networking-->Network settings.
+Click configure from the public IP address.
+View the existing primary type IP configuration.
+Click add and enable associate public IP address.
+Enter the name as devops-pip.
+Choose the devops-pip from the dropdown of public IP address.
+Network interface will get updated.
+Start the VM.
