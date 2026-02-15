@@ -17,9 +17,9 @@ Disk size must be 2 GiB.
 
 **Solution**:
 
-1.Go to disks.
-2. Click create.
-3. Enter the disk name as specified.
-4. Choose the disk size to 2 GiB from the custom disk size.
-5. Change the storage type as standard HDD (LRS).
-6. Click review and create.
+* Go to disks.
+* Click create.
+* Enter the disk name as specified.
+* Choose the disk size to 2 GiB from the custom disk size.
+* Change the storage type as standard HDD (LRS).
+* Click review and create.
