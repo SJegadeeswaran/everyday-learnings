@@ -17,4 +17,4 @@ Ensure the VM is accessible via SSH using the generated public key.
 * While creating choose "Use existing public key" option from the dropdown for SSH public key source.
 * Copy the public key in the SSH public key field.
 * In the networking section, create public IP named "xfusion-pip". 
-* Once VM is created, login to the VM using ssh azureuser@<public-ip>
+* Once VM is created, login to the VM using ssh azureuser@public-ip
