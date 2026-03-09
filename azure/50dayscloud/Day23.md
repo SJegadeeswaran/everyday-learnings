@@ -4,7 +4,7 @@ The Nautilus DevOps Team is working on setting up a new virtual machine (VM) to 
 
 As a member of the Nautilus DevOps Team, your task is to create a VM using Azure CLI with the following specifications:
 
-Instance Name: The VM must be named devops-vm.
+Instance Name: The VM must be named datacenter-vm.
 
 Image: Use any available Ubuntu image to create this VM.
 
@@ -30,7 +30,7 @@ Notes:
     You may use the default resource group or create a new one if needed.
 
 
- **Solution**
+ **Solution1 (tried didn't work as expected-yet to debug)**
 
  ```
  az vm create --resource-group kml_rg_main-c1b1ed0e32554803 --name devops-vm --location eastus --image Ubuntu2204 --size Standard_B1s --admin-username azureuser --generate-ssh-keys 
@@ -61,4 +61,40 @@ az storage account show-connection-string --resource-group kml_rg_main-c1b1ed0e3
 
 
 az vm extension set --resource-group kml_rg_main-c1b1ed0e32554803 --vm-name devops-vm --name nginx.sh --publisher Microsoft.Azure.Extensions --settings '{"fileUris": ["https://raw.githubusercontent.com"],"commandToExecute": "bash ./nginx.sh"}'
+```
+**Solution2**
+
+* Create the data.txt file.
+
+data.txt:
+
+```
+#cloud-config
+package_upgrade: true
+packages:
+  - nginx
+runcmd:
+  - systemctl start nginx
+  - systemctl enable nginx
+```
+* Assign resource group value to the rg variabe.
+```
+rg=$(az group list --query "[].name" -o tsv)
+```
+* Create azure VM from azure cli.
+```
+az vm create \
+   -g $rg \
+   -n datacenter-vm \
+   --image Ubuntu2204 \
+   --storage-sku Standard_LRS \
+   --custom-data /root/data.txt \
+   --size Standard_B1s \
+   --admin-username azureuser \
+   --generate-ssh-keys
+```   
+* Open the nginx port 80 from azure cli and list the ip address to know.  
+```
+az vm open-port --port 80 -g $rg -n devops-vm
+az vm list-ip-addresses
 ```
