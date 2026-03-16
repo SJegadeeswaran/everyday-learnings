@@ -8,7 +8,9 @@ As a member of the team, perform the following steps:
 
 2) Also create a new standard HDD data disk named datacenter-disk of 64Gi and mount the disk to VM datacenter-vm at location /mnt/datacenter-disk.
 
-* Stop the VM.
+**Solution**
+
+* Stop the existing running VM.
 * Go to the VM-->Expand Settings-->Click Disks.
 * Choose the disk-->Click Create Snapshot (Disallowed by policy, so this step be ignored).
 * Choose the disk-->Under settings-->Size + performance
@@ -17,7 +19,7 @@ As a member of the team, perform the following steps:
 * Under Settings-->Disk
 * Click Create and attach new disk-->Enter disk name, storage type (Standard HDD) & size.
 * Click Apply.
-* Run the command lsblk -o NAME,HCTL,SIZE,MOUNTPOINT | grep -i "sd" from azure-client host to find the newly added disk.
+* Run the command: lsblk -o NAME,HCTL,SIZE,MOUNTPOINT | grep -i "sd", from azure-client host to find the newly added disk.
 * Run the following commands from azure-client host
 
 ```
@@ -32,5 +34,5 @@ sudo mount /dev/sdc1 /mnt/datacenter-disk
 
 UUID=***** /mnt/datacenter-disk xfs   defaults,nofail   1   2
 
-Reference: 
+Reference URL: 
 https://learn.microsoft.com/en-us/azure/virtual-machines/linux/attach-disk-portal
