@@ -22,4 +22,4 @@ Notes:
 * In the networking section make sure the virtual network and subnet are selected as the one it is created earlier.
 * Click create.
 * Copy the pem file downloaded in the local machine to the azure-client host or the same the connected from the local machine also.
-* Login ssh -i <pemfile> username@publicIP.
+* Login ssh -i pemfile username@publicIP.

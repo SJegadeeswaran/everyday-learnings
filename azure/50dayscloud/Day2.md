@@ -27,4 +27,4 @@ After completing these steps, make sure you can SSH into the virtual machine.
 * Choose a disk as specified and a network security group allowing port 22.
 * Create a VM.
 * The pem file would be downloaded to the local machine from a prompt.
-* Copy the pem file to the azure-client host and try logging in to the VM using ssh -i <pemfile> username@publicIP.
+* Copy the pem file to the azure-client host and try logging in to the VM using ssh -i pemfile username@publicIP.
