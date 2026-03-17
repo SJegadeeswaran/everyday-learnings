@@ -1,6 +1,4 @@
-Task:
-
-Create an Azure Virtual Machine
+**Create an Azure Virtual Machine**
 
 The Nautilus DevOps team is planning to migrate a portion of their infrastructure to the Azure cloud incrementally. As part of this migration, you are tasked with creating an Azure Virtual Machine (VM).
 
@@ -22,9 +20,11 @@ The requirements are:
 
 After completing these steps, make sure you can SSH into the virtual machine.
 
-Solution:
+**Solution**:
 
-Type Virtual Machine from the Azure portal.
-Select the required parameters from the dropdown.
-Choose a disk and a network security group.
-Create a VM and try logging in to the VM.
+* Type Virtual Machine from the Azure portal.
+* Select the required parameters from the dropdown as specified.
+* Choose a disk as specified and a network security group allowing port 22.
+* Create a VM.
+* The pem file would be downloaded to the local machine from a prompt.
+* Copy the pem file to the azure-client host and try logging in to the VM using ssh -i <pemfile> username@publicIP.
