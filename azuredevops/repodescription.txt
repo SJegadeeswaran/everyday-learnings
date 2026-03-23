@@ -1,0 +1,5 @@
+This project is forked from: https://github.com/MicrosoftDocs/pipelines-java
+This is just a sample java project for building the war files and then build a docker image from it. 
+The docker image is then pushed to container registry and deployed using AKS cluster.
+All these are done using Azure devops service (As of July 2022) .
+Reference link: https://www.youtube.com/watch?v=4Oa5HneTuKs

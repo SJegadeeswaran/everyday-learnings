@@ -1,0 +1,3 @@
+The artifact is created at the project level and mirrored to use the jars from Azure artifacts.
+The artifact can be created with access to all projects from the org level.
+The jars can also be pushed to downstream teams with mvn deploy command.

@@ -1,0 +1,1 @@
+sudo usermod -aG docker <username> (adding <username> to docker group - this would allow docker commands to execute without sudo).

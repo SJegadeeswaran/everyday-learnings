@@ -1,0 +1,36 @@
+Task:
+
+SSH into an Azure Virtual Machine
+
+The Nautilus DevOps team is working on setting up secure SSH access for their virtual machines in Azure. One of the requirements is to add the SSH public key of the root user from the Azure client host (landing host) to the devops-vm Azure VM's authorized_keys file. This ensures secure and password-less SSH access to the VM.
+Task Details:
+
+1) VM Details:
+
+    The VM is named devops-vm and is running in the westus region. The default SSH user is azureuser — use this user to connect to the VM.
+    You need to add the root user's SSH public key from the Azure client host to the authorized_keys file of the VM's root user.
+    The SSH public key of the root user on the Azure client host is located at /root/.ssh/id_rsa.pub.
+
+2) Public Key Addition:
+
+    Copy the public key located at /root/.ssh/id_rsa.pub on the Azure client host to the authorized_keys file of the root user on devops-vm.
+    Ensure that the proper permissions for the .ssh folder and authorized_keys file are set on the VM.
+
+3) Verification:
+
+    After adding the public key, make sure that you are able to SSH into the devops-vm VM as the root user from the Azure client host without needing a password.
+
+Important Notes:
+
+    Ensure that the VM is up and running before attempting to SSH.
+    You may need to adjust the firewall or security group rules for the VM to allow SSH access.	
+
+
+Solution:
+
+View the public IP from the Azure portal for the azure VM.
+ssh azureuser@<public-IP>;
+Exit from azureuser and navigate back to Azure client host.
+Copy the /root/.ssh/id_rsa.pub from the root user (Azure client host) and paste to the authorized_keys of the root user in the devops-vm by removing the existing contents in the authorized keys.
+Change the permission of the authorized_keys file to chmod 600 in the root user of the devops-vm.
+From the Azure client host, login with root@<public-ip>.

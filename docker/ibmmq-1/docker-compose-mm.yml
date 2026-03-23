@@ -1,0 +1,86 @@
+version: "3"
+services:
+  zookeeper:
+    image: zookeeper:3.6.2
+    container_name: zookeeper
+    restart: always
+    ports:
+      - "2181:2181"
+    networks:
+      docker-net-services:
+        ipv4_address: 'xxx.xx.x.x'
+
+  kafka:
+    image: wurstmeister/kafka:2.12-2.1.0
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ZOOKEEPER_CONNECTION_TIMEOUT_MS: 20000
+    networks:
+      docker-net-services:
+        ipv4_address: 'xxx.xx.x.x'
+
+  mongo:
+    image: mongo:4.2.8
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: xxxx
+      MONGO_INITDB_ROOT_PASSWORD: xxxx
+      MONGO_INITDB_DATABASE: xxxxxxdb
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      docker-net-services:
+        ipv4_address: 'xxx.xx.x.x'
+
+  tomcat:
+    build:
+      context: tomcat
+    container_name: tomcat
+    ports:
+      - "8443:8443"
+    environment:
+    volumes:
+      - ./webapps-mm:/usr/local/tomcat/webapps
+      - ./logs/mm:/usr/local/tomcat/logs
+      - ./logs/mm:/usr/local/logs
+    command: [ sh, -c, "start.sh" ]
+    networks:
+      docker-net-services:
+        ipv4_address: 'xxx.xx.x.x'
+
+  ibmmq:
+    build:
+      context: ibmmq
+    container_name: ibmmq
+    ports:
+      - "9443:9443"
+      - "1414:1414"
+    environment:
+      MQ_QMGR_NAME: XXXX
+      LICENSE: accept
+      MQ_ADMIN_PASSWORD: mqm
+    command: [ sh, -c, "runmqdevserver" ]
+    networks:
+      docker-net-services:
+        ipv4_address: 'xxx.xx.x.x'
+
+  rabbitmq:
+      build:
+        context: rabbitmq
+      container_name: rabbitmq
+      ports:
+        - "15672:15672"
+        - "5672:5672"
+      networks:
+        docker-net-services:
+           ipv4_address: 'xxx.xx.x.x'
+
+networks:
+  docker-net-services:
+    external: true

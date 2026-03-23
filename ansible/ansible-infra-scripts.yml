@@ -1,0 +1,9 @@
+-
+  name: Installing infra components
+  hosts: web
+  tasks:
+   - name: Installing Git
+     script: /home/playbooks/git.sh
+     
+git.sh file:
+yum install git -y

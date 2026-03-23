@@ -1,0 +1,51 @@
+Steps to configure and fix Autoscaling issue in AKS:
+
+[set CriticalAddonsOnly as true - NoSchedule]: Taint to system nodepool
+Once tainted no application pods will get deployed to system nodepool.
+
+
+1. System nodepool: Standard_D8s_v3
+2. User nodepool: Standard_D8s_v3
+
+System nodepool: 3 nodes (default)
+User nodepool: 2 nodes (default)
+
+Both pools with autoscaling enabled (Min and Max as 1 and 3)
+
+Kubernetes version: 1.25.11
+Region: East US 2
+
+Issue: 
+
+Whenever the node is autoscaled, the metric-server pod is crashed on the scaled node. 
+It is unable to scale down though the load is low as the metric-server pod is crashed.
+
+Resolution:
+
+1. Use Standard_D8s_v3
+2. Update pod nanny from the default namespace.
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: metrics-server-config
+  namespace: kube-system
+  labels:
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: EnsureExists
+data:
+  NannyConfiguration: |-
+    apiVersion: nannyconfig/v1alpha1
+    kind: NannyConfiguration
+    baseCPU: 100
+    cpuPerNode: 1m
+    baseMemory: 100Mi
+    memoryPerNode: 8Mi
+
+
+basecpu - increase and then restart the pod of metric-server.
+basememory - increase and then restart the pod of metric-server if needed.
+
+For pod nanny:
+https://learn.microsoft.com/en-us/azure/aks/use-metrics-server-vertical-pod-autoscaler#troubleshooting

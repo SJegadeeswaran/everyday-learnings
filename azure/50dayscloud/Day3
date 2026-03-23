@@ -1,0 +1,24 @@
+Task:
+
+Create VM using Azure CLI
+
+The Nautilus DevOps team is in the process of migrating some of their workloads to Azure. One of the tasks involves creating a new Virtual Machine (VM) using the Azure CLI. The team does not have access to the Azure portal but can manage Azure resources via the azure-client host (the landing host for this lab).
+
+1) Create a new Azure Virtual Machine named nautilus-vm using the Azure CLI.
+
+2) Use the Ubuntu2204 image and set the VM size to Standard_B2s.
+
+3) Make sure the admin username is set to azureuser and SSH keys are generated for secure access.
+
+4) Use Standard_LRS storage account, disk size must be 30GB and ensure the VM nautilus-vm is in the running state after creation.
+
+Solution:
+
+The solution here is NOT to use az login, since the azure-client terminal is already logged in. 
+You can get a usable resource group to create the vm by doing az group list. Then it’s pretty straightforward. 
+Authenticated Azure session (az login). In a KodeKloud lab environment, you are often pre-authenticated. 
+So, use "az group list" to find an existing resource group.	
+
+az vm create --resource-group <> --name <> --image <> --size <> --admin-username <> --generate-ssh-keys --os-disk-size-gb <> --storage-sku <>
+
+az vm create --resource-group kml_rg_main-f45314e94d954a4b --name nautilus-vm --image Ubuntu2204 --size Standard_B2s --admin-username azureuser --generate-ssh-keys --os-disk-size-gb 30 --storage-sku Standard_LRS

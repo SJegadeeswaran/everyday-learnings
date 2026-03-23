@@ -1,0 +1,18 @@
+APIserver crash Scenario:
+
+The idea here is to misconfigure the Apiserver in different ways, then check possible log locations for errors.
+You should be very comfortable with situations where the Apiserver is not coming back up.
+Configure the Apiserver manifest with a new argument --this-is-very-wrong .
+Check if the Pod comes back up and what logs this causes.
+
+Fix the Apiserver again.
+
+Log Locations:
+
+Log locations to check:
+
+    /var/log/pods
+    /var/log/containers
+    crictl ps + crictl logs
+    docker ps + docker logs (in case when Docker is used)
+    kubelet logs: /var/log/syslog or journalctl

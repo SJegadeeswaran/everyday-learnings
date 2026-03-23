@@ -1,0 +1,30 @@
+
+kubectl get pods -n <namespace-name>
+kubectl get nodes
+kubectl get svc
+kubectl get deployment
+kubectl create secret generic regcred --from-file=.dockerconfigjson=<path/to/.docker/config.json> --type=kubernetes.io/dockerconfigjson
+kubectl --kubeconfig "/home/vm-user/xxx/xxx" create secret docker-registry dockercred4 --docker-server=xxx.azurecr.io --docker-username=xxx --docker-password=xxx
+
+kubectl get secret
+kubectl create configmap configmapname --from-file=/home/xxx/filename
+kubectl create configmap xmlfile --from-file=/home/xxx/filename.xml
+kubectl get configmap
+kubectl describe configmap configmapname
+kubectl create namespace <namespace-name>
+kubectl get pods -n <namespace-name> mongo-xxxx -o jsonpath="Name: {.metadata.name} Status: {.status.phase}"
+kubectl get pods -o=name --field-selector=status.phase=Running -n <namespace-name>
+kubectl rollout restart deployment my-dep (to restart the deployment)
+kubectl top nodes
+kubectl top pods
+kubectl get po,svc,deployment -n <namespace-name>
+kubectl get all -n <namespace-name>
+kubectl autoscale deployment <deployment-name> --cpu-percent=2 --min=1 --max=2 -n <namespace-name>
+kubectl get hpa -n <namespace-name>
+kubectl delete hpa <deployment-name> -n pe-devops
+Ref (HPA): https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+
+kubectl config set-context --current --namespace=pe-devops
+kubelogin convert-kubeconfig -l azurecli --kubeconfig /.kube/config
+
+ssh -i filename.pem username@xxx.xxx.xxx.xxx -L 8080:xx.xxx.x.xxx:8080 -L 8161:xx.xxx.xx.xx:8161 (exposing the application URL using port forwarding in kubernetes) - Can be logged using http://localhost:8080

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloworld
+  labels:
+    app: helloworld
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloworld
+  template:
+    metadata:
+      labels:
+        app: helloworld
+    spec:
+      containers:
+      - name: helloworld
+        image: xxxx.azurecr.io/helloworld:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "3Gi"
+            cpu: "900m"
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: xxxx
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: helloworld
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+spec:
+    type: LoadBalancer
+    loadBalancerIP: xx.xx.xxx.xx
+    ports:
+    - name: hellworld
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+    selector:
+        app: helloworld

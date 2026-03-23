@@ -1,0 +1,33 @@
+APIserver crash Solution:
+
+# always make a backup !
+cp /etc/kubernetes/manifests/kube-apiserver.yaml ~/kube-apiserver.yaml.ori
+
+# make the change
+vim /etc/kubernetes/manifests/kube-apiserver.yaml
+Add the flag --this-is-very-wrong
+
+# wait till container restarts
+watch crictl ps
+
+# check for apiserver pod
+k -n kube-system get pod (the pod crashes due to incorrect flag passed)
+
+
+Apiserver is not coming back, we messed up!
+
+# check pod logs
+cat /var/log/pods/kube-system_kube-apiserver-controlplane_a3a455d471f833137588e71658e739da/kube-apiserver/X.log
+> 2022-01-26T10:41:12.401641185Z stderr F Error: unknown flag: --this-is-very-wrong
+(or)
+kubectl logs <podname> -n kube-system
+
+Now undo the change and continue
+
+# smart people use a backup
+cp ~/kube-apiserver.yaml.ori /etc/kubernetes/manifests/kube-apiserver.yaml
+
+The pod can be deleted.
+
+Reference:
+https://killercoda.com/killer-shell-cka/scenario/apiserver-crash

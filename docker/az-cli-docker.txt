@@ -1,0 +1,7 @@
+Steps to pull docker images from Azure container registry using Azure CLI:
+
+Install az and docker 
+az login
+az account set -s <subscription-id>
+az acr login -n <acrname>
+docker pull command.

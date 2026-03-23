@@ -1,0 +1,26 @@
+FROM xxx.azurecr.io/xxx:latest
+USER root
+ARG buildnumber
+RUN mkdir -p /build
+WORKDIR /build
+COPY . /build/
+RUN cd /build/foldername \
+&& bash ./filename.sh \
+&& cd /build/foldername \
+&& bash ./filename.sh \
+&& cd /build/ \
+&& cat /build/xxx.properties | grep "name" | cut -d'=' -f2 > filename.txt \
+&& buildnumber1=$(cat filename.txt) \
+&& cat /build/xxx.properties | grep "name1" | cut -d'=' -f2 > filename1.txt \
+&& ui1=$(cat ui.txt) \
+&& wget "http://xxxx/view/xxx/job/jobname/$ui1/artifact/filename.zip" \
+&& unzip filename.zip \
+&& bash ./filename.sh $buildnumber1-$buildnumber \
+&& mvn package exec:java -Dexecution.className=com.xxxx.xxxx.xxxx -Dexec.classpathScope=compile -Dexec.args="../../ $buildnumber1-$buildnumber ../../xxxx.xml" \
+&& cd /build/ \
+&& rm -f /home/path/filename.sh \
+&& chmod 777 filename.sh \
+&& cd /build/foldername/ \
+&& jar -cvf /build/filename.war .
+
+docker build --build-arg buildnumber=1 -t xxxx.azurecr.io/xxx:latest .

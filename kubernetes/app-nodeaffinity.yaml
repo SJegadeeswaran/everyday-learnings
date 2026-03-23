@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-xxx
+  labels:
+    app: tomcat-xxx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tomcat-xxx
+  template:
+    metadata:
+      labels:
+        app: tomcat-xxx
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: agentpool
+                operator: In
+                values:
+                - usernode1
+      containers:
+      - name: tomcat-xxx
+        image: xxxcontainer.azurecr.io/tomcat-xxx:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "3Gi"
+            cpu: "700m"
+          limits:
+            memory: "3.5Gi"
+            cpu: "1000m"
+        envFrom:
+        - configMapRef:
+           name: app-config-dev
+        volumeMounts:
+        - name: contextxml
+          mountPath: "/usr/local/tomcat/conf/context.xml"
+          subPath: context.xml
+        - name: serverxml
+          mountPath: "/usr/local/tomcat/conf/server.xml"
+          subPath: server.xml
+        - name: certificate
+          mountPath: "/usr/local/tomcat/conf/test.p12"
+          subPath: test.p12
+        - name: license
+          mountPath: "/usr/local/tomcat/lib/license.jar"
+          subPath: test-license.jar    
+      volumes:
+      - name: contextxml
+        configMap:
+          name: contextxml
+      - name: serverxml
+        configMap:
+          name: serverxml
+      - name: certificate
+        configMap:
+          name: certs
+      - name: license
+        configMap:
+          name: testlicense           
+      imagePullSecrets:
+      - name: secret
