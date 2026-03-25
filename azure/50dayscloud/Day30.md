@@ -4,19 +4,20 @@ The Nautilus Devops team is strategizing the migration of a portion of their inf
 
 For this task, create one publicly accessible Azure SQL Database instance along with the following details:
 
-1) The name of the Azure SQL Database must be nautilus-sqldb.
+1) The name of the Azure SQL Database must be xfusion-sqldb.
 
-2) The server name must be nautilus-server-23469 under eastus.
+2) The server name must be xfusion-server-15846 under southcentralus.
 
 3) The compute + storage configuration should be Basic (For less demanding workloads).
 
 4) The backup storage redundancy should be Locally-redundant backup storage.
 
-5) Set the login admin username to nautilus-admin and set an appropriate password.
+5) Set the login admin username to xfusion-admin and set an appropriate password.
 
 6) Set the database size to 2 GiB.
 
 7) Keep the rest of the configurations as default. Finally, make sure the database is in the Ready state before submitting this task.
+
 
 **Solution**
 
