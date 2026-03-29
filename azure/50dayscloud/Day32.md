@@ -14,4 +14,25 @@ Use Azure CLI: Use the Azure CLI to perform the creation and data migration task
 
 **Solution**
 
-*  az storage container create --account-name datacenterst21460  --name datacenter-dest-10095  --auth-mode login 
+```
+az storage container create --name <container-name> --account-name <storage-account-name> --auth-mode login --public-access off
+
+--auth-mode login denotes:	
+“Don’t use account keys or SAS tokens — use my Azure identity (RBAC) instead.”
+
+az storage container create --name datacenter-dest-15861  --account-name datacenterst701 --auth-mode login --public-access off
+
+Copy using login (as there is no SAS URL)
+
+az storage blob copy start --account-name mystorageaccount --destination-container container2 --destination-blob file.txt --source-container container1 --source-blob file.txt --auth-mode login
+
+az storage blob copy start --account-name datacenterst701  --destination-container datacenter-dest-15861  --destination-blob datacenter.txt --source-container datacenter-source-2926 --source-blob  datacenter.txt --auth-mode login
+
+To ensure data consistency between two containers by checking the size and last modified:
+
+az storage blob show --account-name <account> --container-name container1 --name file.txt --query "{size:properties.contentLength, lastModified:properties.lastModified}"
+
+az storage blob show --account-name datacenterst701 --container-name datacenter-dest-15861 --name datacenter.txt --query "{size:properties.contentLength, lastModified:properties.lastModified}"
+
+az storage blob show --account-name datacenterst701 --container-name datacenter-source-2926 --name datacenter.txt --query "{size:properties.contentLength, lastModified:properties.lastModified}"
+```
