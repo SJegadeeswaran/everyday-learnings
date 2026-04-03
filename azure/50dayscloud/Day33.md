@@ -29,11 +29,11 @@ The Nautilus DevOps team is currently working on setting up a simple application
 * Enter the name of the backend pool as xfusion-backend-pool and choose a virtual network from the dropdown.
 * Go to IP configurations and click add.
 * Add the virtual machine and click save.
-* Click Next to Inbound rules
-* Click add a load balancing rule
-* Enter the load balancing rule name-->Frontend IP address, Backend pool, port and the backend port as 80
+* Click Next to Inbound rules.
+* Click add a load balancing rule.
+* Enter the load balancing rule name-->Frontend IP address, Backend pool, port and the backend port as 80.
 * Click create new on the health probe and enter the health probe name.
 * Click save.
-* Click review+create
-* Go to NSG-->Click the existing NSG
+* Click review+create.
+* Go to NSG-->Click the existing NSG.
 * Go to settings-->Click inbound security rules-->Choose the service as HTTP-->Enter the rule name and save.
