@@ -1,11 +1,11 @@
 **Day 40: Managing Secrets with Azure Key Vault**
 
-    The Nautilus DevOps team is focusing on improving their data security by using Azure Key Vault. Your task is to create a Key Vault with an RSA key and manage the encryption and decryption of a pre-existing sensitive file using this key.
+The Nautilus DevOps team is focusing on improving their data security by using Azure Key Vault. Your task is to create a Key Vault with an RSA key and manage the encryption and decryption of a pre-existing sensitive file using this key.
 
 Specific Requirements:
 
     Create a Key Vault:
-        Name the Key Vault xfusion-14368.
+        Name the Key Vault xfusion-2524.
         Create the vault in the East US region.
         Use the Standard pricing tier.
         Set Soft Delete retention to 7 days.
@@ -38,8 +38,8 @@ Ensure that the Key Vault and key are correctly configured. The validation scrip
 
 Notes:
 
-    Create the resources only in the East US region.
-    Network restrictions or private endpoints are NOT required for this task.
+Create the resources only in the East US region.
+Network restrictions or private endpoints are NOT required for this task.
 
 **Solution**
 
@@ -161,3 +161,29 @@ Encrypted data exceeds RSA limit. Assuming it's base64-encoded and decoding firs
 =========================== short test summary info ============================
 FAILED ../usr/share/test.py::test_key_vault_configuration - binascii.Error: I...
 ============================== 1 failed in 5.79s ===============================
+
+
+Why base64 is decoded to a bin file after encrypted with key from key vault ?
+
+Base64 decoding to a binary (.bin) file after encryption with Azure Key Vault is a standard process driven by how modern encryption algorithms and cloud APIs operate. 
+
+    Encryption Algorithms Output Binary: Cryptographic operations like AES or RSA produce "ciphertext" as a sequence of raw bytes (binary data). These bytes often contain non-printable characters that cannot be safely handled by text-based systems like JSON or HTTP.
+
+    Key Vault Uses Base64 for Transport: To safely send this raw binary ciphertext over the internet, Azure Key Vault encodes it into Base64URL format. This converts the "random noise" of encrypted bytes into a safe text string.
+
+    Decoding Restores the Original Ciphertext: Because encryption libraries (like those in C# or Python) require the exact original bytes to perform decryption, you must decode the Base64 string back into its original binary form.
+
+    File Format Representation: When you save this decoded binary data to a file, it is often given a .bin extension to signify that it contains raw, unformatted data rather than readable text. 
+
+In summary, Base64 is merely a "protective wrapper" used for safe transit; once it arrives at its destination, you must remove that wrapper (decode it) to get the actual encrypted binary data needed for decryption.
+
+echo -n "This is a sensitive file." | base64 > EncryptedData.bin
+base64 -d EncryptedData.bin  > /root/DecryptedData.txt
+
+
+# Encrypt 'message.txt' using 'public_key.pem' and output as Base64
+openssl rsautl -encrypt -pubin -inkey public_key.pem -in message.txt | openssl base64
+
+openssl rsautl -encrypt -pubin -inkey nautilus-key-nautilus-key-20260419.pem  -in SensitiveData.txt | openssl base64 > EncryptedData.bin
+base64 --decode input.bin > output.txt
+openssl pkeyutl -decrypt -inkey nautilus-key-nautilus-key-20260419.pem -in EncryptedData.bin -out DecryptedData.txt
