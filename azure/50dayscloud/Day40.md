@@ -5,7 +5,7 @@ The Nautilus DevOps team is focusing on improving their data security by using A
 Specific Requirements:
 
     Create a Key Vault:
-        Name the Key Vault xfusion-2524.
+        Name the Key Vault datacenter-22208.
         Create the vault in the East US region.
         Use the Standard pricing tier.
         Set Soft Delete retention to 7 days.
@@ -13,7 +13,7 @@ Specific Requirements:
         Configure an access policy that allows Get, List, Encrypt, and Decrypt permissions for the lab identity.
 
     Create an RSA Key:
-        Create a key named xfusion-key within the Key Vault.
+        Create a key named datacenter-key within the Key Vault.
         Key type: RSA.
         RSA key size: 4096.
         Leave all other settings as default.
@@ -38,10 +38,10 @@ Ensure that the Key Vault and key are correctly configured. The validation scrip
 
 Notes:
 
-Create the resources only in the East US region.
-Network restrictions or private endpoints are NOT required for this task.
+    Create the resources only in the East US region.
+    Network restrictions or private endpoints are NOT required for this task.
 
-**Solution**
+**Raw Solution**
 
 * Search for key vault-->Click create
 * Enter the vault name, region, pricing tier and days to retain
@@ -187,3 +187,41 @@ openssl rsautl -encrypt -pubin -inkey public_key.pem -in message.txt | openssl b
 openssl rsautl -encrypt -pubin -inkey nautilus-key-nautilus-key-20260419.pem  -in SensitiveData.txt | openssl base64 > EncryptedData.bin
 base64 --decode input.bin > output.txt
 openssl pkeyutl -decrypt -inkey nautilus-key-nautilus-key-20260419.pem -in EncryptedData.bin -out DecryptedData.txt
+
+**Final Solution**
+
+* Search for key vault-->Click create
+* Enter the vault name, region, pricing tier and days to retain
+* Click next and on the access configuration-->permission model-->Choose vault access policy
+* Under access policies-->Choose existing policy
+* Click edit and choose permissions as Get, list, create, encrypt and decrypt for all and then save.
+* Click Create.
+* Go to the created keyvault and from the left side panel choose Objects-->Keys
+* Click Generate/Import
+* Choose Generate, enter name, keytype as RSA and RSA key size as 4096
+* Click create.
+* az login
+* Convert File to Base64 using:
+
+base64 /root/SensitiveData.txt > /root/plaintext.b64
+
+Azure Key Vault encrypts base64-encoded data
+* Encrypt Using Key Vault
+
+az keyvault key encrypt --vault-name datacenter-22208 --name nautilus-key
+--algorithm RSA-OAEP --value "$(cat /root/plaintext.b64)" --query result -o tsv > /root/EncryptedData.bin
+
+* Decrypt the file
+
+ az keyvault key decrypt --vault-name datacenter-22208 --name datacenter-key --algorithm RSA-OAEP --value "$(cat /root/EncryptedData.bin)" --query result -o tsv > /root/decrypted.b64
+
+* Convert Back to Original Text
+
+base64 --decode /root/decrypted.b64 > /root/DecryptedData.txt
+
+This is just to see the diff between SensitiveData.txt & the DecryptedData.txt
+
+* Verify Data Integrity
+diff /root/SensitiveData.txt /root/DecryptedData.txt
+
+* No output resembles the verification is successful.
