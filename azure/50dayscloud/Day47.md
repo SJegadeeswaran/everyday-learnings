@@ -41,8 +41,24 @@ Verify the backup file is successfully downloaded to the /opt directory on the c
 * Click create SQL database.
 * Choose the default resource group.
 * Enter the database name, server name and region.
-* Choose backup storage redundancy as locally-redundant backup storage.
+* Click create new for server name and choose authentication method as SQL authentication.
+* Enter the admin username and password.
 * In the Compute + storage click configure database
 * Choose service tier as Basic (For less demanding workloads)
 * Choose the data size as 2GB and click apply.
+* Choose backup storage redundancy as locally-redundant backup storage.
+* Search for storage accounts and click create.
+* Enter the storage account name and location.
+* Go to the created storage account-->Data Storage-->Containers
+* Click add containers and enter the container name and click create.
+* Go to the created Azure SQL database and click export from the top.
+* Click select storage and choose the created storage details.
+* Enter the password which was set already.
+* Check for the .bacpac file in the storage account-->container created.
+* Upload the .bacpac file to the azure client host /opt directory.
+
+```
+az storage blob download   --account-name devopsst8870   --container-name devops-container-29466   --name devops-sqldb-2026-6-4-9-8.bacpac   --file /opt/devops-sqldb-2026-6-4-9-8.bacpac   --auth-mode login
+```
+
 
