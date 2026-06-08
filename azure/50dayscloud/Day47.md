@@ -5,26 +5,26 @@ The Nautilus DevOps team is strategizing the migration of a portion of their inf
 Task 1: Create an Azure SQL Database
 Create a publicly accessible Azure SQL Database instance with the following details:
 
-Database Name: datacenter-sqldb.
-Server Name: datacenter-server-19462.
+Database Name: xfusion-sqldb.
+Server Name: xfusion-server-8730.
 Location: West US
 Backup Storage Redundancy: Locally-redundant backup storage.
 Hardware Configuration: Basic (For less demanding workloads).
-Admin Username: datacenter-admin.
+Admin Username: xfusion-admin.
 Admin Password: Set an appropriate password.
 Database Size: Set to 2 GiB.
 Keep all other configurations as default.
 Ensure the database is in the Ready state.
 
 Task 2: Create a Storage Account
-Create a Storage Account named datacenterst1884.
-Configure a Blob Container named datacenter-container-873 within this storage account.
+Create a Storage Account named xfusionst32087.
+Configure a Blob Container named xfusion-container-14898 within this storage account.
 Task 3: Backup the Azure SQL Database
-Take a backup of the Azure SQL Database instance datacenter-sqldb and store it in the Blob Container:
+Take a backup of the Azure SQL Database instance xfusion-sqldb and store it in the Blob Container:
 
-Storage Account: datacenterst1884.
-Blob Container: datacenter-container-873.
-Backup File Name: datacenter-db-backup.
+Storage Account: xfusionst32087.
+Blob Container: xfusion-container-14898.
+Backup File Name: xfusion-db-backup.
 Ensure the backup is fully exported to the blob container.
 
 Task 4: Download the Backup
@@ -52,13 +52,12 @@ Verify the backup file is successfully downloaded to the /opt directory on the c
 * Go to the created storage account-->Data Storage-->Containers
 * Click add containers and enter the container name and click create.
 * Go to the created Azure SQL database and click export from the top.
+* Enter the backup file name as provided.   
 * Click select storage and choose the created storage details.
 * Enter the password which was set already.
 * Check for the .bacpac file in the storage account-->container created.
-* Upload the .bacpac file to the azure client host /opt directory.
+* Upload the .bacpac file to the azure client host /opt directory from the following command.
 
 ```
-az storage blob download   --account-name devopsst8870   --container-name devops-container-29466   --name devops-sqldb-2026-6-4-9-8.bacpac   --file /opt/devops-sqldb-2026-6-4-9-8.bacpac   --auth-mode login
+az storage blob download --account-name xfusionst32087 --container-name xfusion-container-14898 --name xfusion-db-backup.bacpac  --file /opt/xfusion-db-backup.bacpac --auth-mode login 
 ```
-
-
