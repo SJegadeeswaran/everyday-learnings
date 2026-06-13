@@ -11,13 +11,13 @@ Install Docker and Azure CLI on the VM.
 Pull the Docker image from the ACR and run it on the VM, ensuring it listens on port 80.
 2) Azure Container Registry (ACR) Setup:
 
-Create an ACR named nautilusacr17010 in the East US region.
+Create an ACR named nautilusacr5426 in the East US region.
 The repository name should be nautilus/python-app.
 Build the Docker image using the Dockerfile already given under /root/pyapp.
 Push the Docker image to the ACR with the tag latest.
 3) Create a Storage Account and Blob Container:
 
-Create a storage account named nautilusstor17010 in the East US region with Locally-redundant storage (LRS).
+Create a storage account named nautilusstor5426 in the East US region with Locally-redundant storage (LRS).
 Create a Blob container named nautilus-config.
 Upload a file named config.json (available under /root/) to the container.
 4) Validation:
@@ -37,6 +37,7 @@ The repository name should be nautilus/python-app.
 * Enter the VM name as provided.
 * Choose OS as Ubuntu 24 and B-series for size.
 * Choose the existing public key and enter the value.
+* Open the ports 80 and 22.
 * Choose standard HDD disk and create the VM.
 * Install docker and make sure azure cli is installed.
 * Search for container registry.
@@ -49,24 +50,32 @@ The repository name should be nautilus/python-app.
 * Build a dockerfile from the azure client host (from kodekloud terminal) and tag it as below and push to ACR.
 
 ```
-docker build -t nautilusacr17010-c0dchhbnh8f2hzdq.azurecr.io/nautilus/python-app:latest
-docker push nautilusacr17010-c0dchhbnh8f2hzdq.azurecr.io/nautilus/python-app:latest
+docker build -t nautilusacr5426.azurecr.io/nautilus/python-app:latest .
+docker push nautilusacr5426.azurecr.io/nautilus/python-app:latest
 ```
 * Search for storage accounts.
 * Click create.
 * Enter the default resource group, storage account name and region.
 * Choose the redundancy type from the dropdown.
-* Click create.
+* Click Review + create.
 * Go to the created resource-->Data storage-->Containers.
 * Click add container-->Create.
 * Upload a file from /root/config.json from azure hosted VM to the azure VM (VM which was recently created).
+* Download a file to the azure VM for docker to run the image.
 
 ```
-az storage blob upload --account-name nautilusstor17010 --container-name nautilus-config --name config.json  --file /root/config.json --auth-mode login
+az storage blob upload --account-name nautilusstor5426 --container-name nautilus-config --name config.json  --file /root/config.json --auth-mode login
+
+az storage blob download --account-name nautilusstor5426 --container-name nautilus-config --name config.json  --file /root/config.json --auth-mode login
 ```
 
-* Run the docker image in azure VM.
+* Run the docker image in azure VM using the following command.
 
-**Error**
+```
+docker run -d -p 80:80 -v /home/azureuser/config.json:/app/config.json --name nautilus-app nautilusacr5426.azurecr.io/nautilus/python-app:latest
+```
+* Run a curl to check whether the application is working.
 
-The web application did not return the expected response.
+```
+curl http://ipaddress
+```
