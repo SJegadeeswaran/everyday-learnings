@@ -40,6 +40,28 @@ The repository name should be nautilus/python-app.
 * Open the ports 80 and 22.
 * Choose standard HDD disk and create the VM.
 * Install docker and make sure azure cli is installed.
+
+```
+sudo apt update
+sudo apt install -y ca-certificates curl
+
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli 
+
+sudo usermod -aG docker $USER
+
+curl -fsSL 'https://azurecliprod.blob.core.windows.net/$root/deb_install.sh' | sudo bash
+```
+
 * Search for container registry.
 * Enter the registry name and location.
 * Choose "Domain name label scope" as no reuse.
