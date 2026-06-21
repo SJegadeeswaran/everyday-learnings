@@ -64,3 +64,8 @@ Ensure proper routing and traffic distribution through the Application Gateway.
 * Choose the backend pool.
 * Click add new for backend settings and enter the backend settings name.
 * Click add and click Review + Create.
+
+Traffic flows from:
+
+Nic-->NSG-->Application Gateway-->Frontend IP-->Backend Pool.
+Listener is for the port to listen.
