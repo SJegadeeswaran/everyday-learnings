@@ -1,0 +1,23 @@
+**Delete Git Branch**
+
+The Nautilus developers are engaged in active development on one of the project repositories located at /usr/src/kodekloudrepos/demo. During testing, several test branches were created, and now they require cleanup. Here are the requirements provided to the DevOps team:
+
+
+
+On the Storage server in Stratos DC, delete a branch named xfusioncorp_demo from the /usr/src/kodekloudrepos/demo Git repository.
+
+**Solution**
+
+Step1: Login to the given storage server.
+Step2: Navigate to the directory /usr/src/kodekloudrepos/demo
+Step3: Run git branch to check the list of branches
+```
+fatal: detected dubious ownership in repository at '/usr/src/kodekloudrepos/demo'
+To add an exception for this directory, call:
+
+        git config --global --add safe.directory /usr/src/kodekloudrepos/demo
+```
+Step4: Run git config --global --add safe.directory /usr/src/kodekloudrepos/demo
+Step5: Run git branch
+Step6: Run sudo git checkout master
+Step7: sudo git branch -d xfusioncorp_demo
