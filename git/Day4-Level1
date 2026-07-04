@@ -1,0 +1,30 @@
+**Update Git Repository with Sample HTML File**
+
+The Nautilus development team has initiated a new project development, establishing various Git repositories to manage each project's source code. Recently, a repository named /opt/news.git was created. The team has provided a sample index.html file located on the jump host under the /tmp directory. This repository has been cloned to /usr/src/kodekloudrepos on the storage server in the Stratos DC.
+
+
+
+Copy the sample index.html file from the jump host to the storage server placing it within the cloned repository at /usr/src/kodekloudrepos/news.
+
+Add and commit the file to the repository.
+
+Push the changes to the master branch.
+
+**Solution**
+
+Step1: sudo scp index.html natasha@ststor01:/home/natasha/
+Step2: Login to the storage server.
+Step3: Copy the index.html file to the given location.
+Step4: Navigate to the given location
+Step5: Type git status to check the status
+
+```
+fatal: detected dubious ownership in repository at '/usr/src/kodekloudrepos/news'
+To add an exception for this directory, call:
+
+        git config --global --add safe.directory /usr/src/kodekloudrepos/news
+```
+Step6: Run git config --global --add safe.directory /usr/src/kodekloudrepos/news
+Step7: sudo git add index.html
+Step8: sudo git commit -m "add index.html"
+Step9: sudo git push origin master
